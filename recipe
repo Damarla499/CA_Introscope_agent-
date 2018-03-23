@@ -1,10 +1,10 @@
 ark 'Ca_willy' do
-  url node['br_CA_Introscope_Agent']['apm_package']
+  url node['CA_Introscope_Agent']['apm_package']
   path '/opt'
   action :put
 end
 ark 'Ep_Agent' do
-  url node['br_CA_Introscope_Agent']['epa_package']
+  url node['CA_Introscope_Agent']['epa_package']
   path '/opt'
   action :put
 end
@@ -20,21 +20,21 @@ link '/opt/wily10' do
 end
 if Chef::Config[:node_name].include?("dev") || Chef::Config[:node_name].include?("qa")
   replace_or_add "introscope agent update" do
-    path node['br_CA_Introscope_Agent']['profile_path']
+    path node['CA_Introscope_Agent']['profile_path']
     pattern "agentManager.url.1=ediqvlapma01:5001"
     line "agentManager.url.1=Apmqa.broadridge.net:5001"
     action :edit
   end
 else
   replace_or_add "introscope agent update" do
-    path node['br_CA_Introscope_Agent']['profile_path']
+    path node['CA_Introscope_Agent']['profile_path']
     pattern "agentManager.url.1=ediqvlapma01:5001"
     line "agentManager.url.1=Apm.broadridge.net:5001"
     action :edit
   end
 end
 replace_or_add "introscope agent update" do
-  path node['br_CA_Introscope_Agent']['profile_path']
+  path node['CA_Introscope_Agent']['profile_path']
   pattern "introscope.agent.jmx.enable=false"
   line "introscope.agent.jmx.enable=true"
   action :edit
