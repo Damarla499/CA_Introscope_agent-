@@ -1,0 +1,43 @@
+driver:
+  name: ec2
+  aws_ssh_key_id: GitLabCI_Runner
+  security_group_ids: ["sg-08f1f77b"]
+  region: us-east-1
+  subnet_id: subnet-57846b1f
+  instance_type: t2.micro
+  associate_public_ip: false
+  tags: {
+    Name: "TestKit-br_CA_Introscope_Agent",
+    Owner: "damarlas",
+    ChargeCode: "TBD",
+    Dept: "TBD"
+   }
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: true
+  chef_omnibus_url: https://nexus.npss.bfsaws.net/repository/3rdParty_RAW/br_chefinstall-13.6.4-1.sh
+  root_path: '/home/ec2-user/kitchen'
+  client_rb:
+    rubygems_url: https://nexus.npss.bfsaws.net/repository/RubyGems.org
+
+verifier:
+  name: inspec
+
+platforms:
+  - name:  br_rhel7
+    driver:
+      image_id:  ami-67480b1d
+    transport:
+      username: ec2-user
+      ssh_key: /home/ec2-user/GitLabCI_Runner.pem
+
+
+suites:
+  - name: default
+    run_list:
+      - recipe[br_CA_Introscope_Agent::default]
+    attributes:
+    verifier:
+      inspec_tests:
+        - test/smoke/default
