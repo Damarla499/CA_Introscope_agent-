@@ -22,14 +22,14 @@ if Chef::Config[:node_name].include?("dev") || Chef::Config[:node_name].include?
   replace_or_add "introscope agent update" do
     path node['CA_Introscope_Agent']['profile_path']
     pattern "agentManager.url.1=ediqvlapma01:5001"
-    line "agentManager.url.1=Apmqa.broadridge.net:5001"
+    line "agentManager.url.1=Apmqa.*******.net:5001"
     action :edit
   end
 else
   replace_or_add "introscope agent update" do
     path node['CA_Introscope_Agent']['profile_path']
     pattern "agentManager.url.1=ediqvlapma01:5001"
-    line "agentManager.url.1=Apm.broadridge.net:5001"
+    line "agentManager.url.1=Apm.*******.net:5001"
     action :edit
   end
 end
